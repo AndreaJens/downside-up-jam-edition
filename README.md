@@ -9,3 +9,5 @@ The controls are simple (move with WASD or arrows, switch plane with UP or DOWN 
 It was a challenge to finish this in 90 minutes, but -hey- at least it works!
 
 **Made using Godot 4.6.2**
+
+Available to play in the browser on itch.io: https://dermondhase.itch.io/downside-up-90-minutes-jam-game
