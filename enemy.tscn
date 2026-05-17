@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://pqewr1cm1myl"]
+
+[ext_resource type="Script" uid="uid://bwq1x586asdot" path="res://enemy.gd" id="1_4gyqm"]
+[ext_resource type="Texture2D" uid="uid://lypqnutp2a62" path="res://enemy1.png" id="2_iifgy"]
+[ext_resource type="Texture2D" uid="uid://cau1amdpt4mim" path="res://enemy2.png" id="3_epg4t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8mm7a"]
+size = Vector2(29, 27)
+
+[sub_resource type="Animation" id="Animation_qi2p4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_iifgy"]
+resource_name = "idle"
+length = 0.36667
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.36666667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_epg4t"]
+_data = {
+&"RESET": SubResource("Animation_qi2p4"),
+&"idle": SubResource("Animation_iifgy")
+}
+
+[node name="Enemy" type="Node2D" unique_id=1334890355]
+script = ExtResource("1_4gyqm")
+textureUp = ExtResource("2_iifgy")
+textureDown = ExtResource("3_epg4t")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1025238212]
+position = Vector2(-4, -4)
+collision_layer = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2085110942]
+position = Vector2(4, 4)
+shape = SubResource("RectangleShape2D_8mm7a")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=621803249]
+texture_filter = 1
+position = Vector2(-4.7683716e-07, -2.3841858e-07)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_iifgy")
+hframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1912893029]
+libraries/ = SubResource("AnimationLibrary_epg4t")
+autoplay = &"idle"
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

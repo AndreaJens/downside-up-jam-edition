@@ -1,0 +1,208 @@
+[gd_scene format=3 uid="uid://bj27efhilw4de"]
+
+[ext_resource type="Script" uid="uid://c7g7y6kbvfncr" path="res://main_scene.gd" id="1_8mm7a"]
+[ext_resource type="Script" uid="uid://bqp51o8tnpyxi" path="res://charaManager.gd" id="2_hq1ik"]
+[ext_resource type="Script" uid="uid://b6g3dxswjwefe" path="res://character_down.gd" id="3_gyfs4"]
+[ext_resource type="Texture2D" uid="uid://damjo08ihxi4j" path="res://char1.png" id="4_66tet"]
+[ext_resource type="Texture2D" uid="uid://cya8yhlux3u0q" path="res://char2.png" id="5_7ycvg"]
+[ext_resource type="PackedScene" uid="uid://cbtd2bg8xxhxv" path="res://enemy_spawner.tscn" id="5_8mm7a"]
+[ext_resource type="Texture2D" uid="uid://7h1i6u3fts7r" path="res://lifebar.png" id="6_hq1ik"]
+[ext_resource type="Script" uid="uid://x3b2prl7blbu" path="res://label_master.gd" id="7_nfk4m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o3jxj"]
+size = Vector2(29, 51)
+
+[sub_resource type="Animation" id="Animation_66tet"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_7ycvg"]
+resource_name = "idle"
+length = 0.66667
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.03333333, 0.32452452, 0.6442799),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wr18j"]
+_data = {
+&"RESET": SubResource("Animation_66tet"),
+&"idle": SubResource("Animation_7ycvg")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0f027"]
+size = Vector2(959.5, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gyfs4"]
+size = Vector2(87.5, 553)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d5x1h"]
+size = Vector2(1139, 48)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8mm7a"]
+font_size = 32
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_66tet"]
+font_size = 64
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_7ycvg"]
+font_size = 64
+
+[node name="Node2D" type="Node2D" unique_id=413650313 node_paths=PackedStringArray("lifebar", "scoreLabel")]
+texture_filter = 1
+script = ExtResource("1_8mm7a")
+lifebar = NodePath("Lifebar")
+scoreLabel = NodePath("Score")
+
+[node name="White" type="ColorRect" parent="." unique_id=171111975]
+offset_right = 960.0
+offset_bottom = 270.0
+
+[node name="Black" type="ColorRect" parent="." unique_id=792023507]
+offset_top = 270.0
+offset_right = 960.0
+offset_bottom = 540.0
+color = Color(0, 0, 0, 1)
+
+[node name="CharaManager" type="Node" parent="." unique_id=2034909303 node_paths=PackedStringArray("playerUp", "playerDown")]
+script = ExtResource("2_hq1ik")
+playerUp = NodePath("../CharacterUP")
+playerDown = NodePath("../CharacterDOWN")
+
+[node name="CharacterUP" type="CharacterBody2D" parent="." unique_id=628237204]
+collision_layer = 3
+script = ExtResource("3_gyfs4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterUP" unique_id=1130528271]
+position = Vector2(48.5, 243.5)
+shape = SubResource("RectangleShape2D_o3jxj")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterUP" unique_id=127613165]
+position = Vector2(49, 247.00002)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("4_66tet")
+hframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterUP" unique_id=1411178864]
+libraries/ = SubResource("AnimationLibrary_wr18j")
+autoplay = &"idle"
+
+[node name="CharacterDOWN" type="CharacterBody2D" parent="." unique_id=1107762690]
+position = Vector2(0, 53)
+collision_layer = 3
+up_direction = Vector2(0, 1)
+script = ExtResource("3_gyfs4")
+upCharacter = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterDOWN" unique_id=247689830]
+position = Vector2(48.5, 243.5)
+shape = SubResource("RectangleShape2D_o3jxj")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterDOWN" unique_id=877037551]
+position = Vector2(49, 242)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("5_7ycvg")
+hframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterDOWN" unique_id=2129729742]
+libraries/ = SubResource("AnimationLibrary_wr18j")
+autoplay = &"idle"
+
+[node name="Ground" type="Node2D" parent="." unique_id=704960724]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Ground" unique_id=129157876]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/StaticBody2D" unique_id=537771128]
+position = Vector2(480.25, 270)
+shape = SubResource("RectangleShape2D_0f027")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Ground/StaticBody2D" unique_id=608945914]
+position = Vector2(-45, 268.5)
+shape = SubResource("RectangleShape2D_gyfs4")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Ground/StaticBody2D" unique_id=1017667165]
+position = Vector2(1005, 275)
+shape = SubResource("RectangleShape2D_gyfs4")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Ground/StaticBody2D" unique_id=1397940613]
+position = Vector2(481.5, -24)
+shape = SubResource("RectangleShape2D_d5x1h")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Ground/StaticBody2D" unique_id=1352442591]
+position = Vector2(480, 565)
+shape = SubResource("RectangleShape2D_d5x1h")
+
+[node name="EnemySpawner1" parent="." unique_id=852923430 instance=ExtResource("5_8mm7a")]
+position = Vector2(977, 272)
+
+[node name="EnemySpawner2" parent="." unique_id=1610378308 instance=ExtResource("5_8mm7a")]
+position = Vector2(977, 272)
+period = 15.0
+timerPeriod = 4.0
+
+[node name="Score" type="Label" parent="." unique_id=822166277]
+offset_left = 410.0
+offset_top = -2.0
+offset_right = 556.0
+offset_bottom = 43.0
+text = "0"
+label_settings = SubResource("LabelSettings_8mm7a")
+horizontal_alignment = 1
+
+[node name="Lifebar" type="TextureProgressBar" parent="." unique_id=2044561744]
+texture_filter = 1
+offset_top = 2.0
+offset_right = 96.0
+offset_bottom = 42.0
+max_value = 3.0
+value = 3.0
+texture_progress = ExtResource("6_hq1ik")
+
+[node name="LabelMaster" type="Node2D" parent="." unique_id=1821297259]
+visible = false
+script = ExtResource("7_nfk4m")
+
+[node name="Label2" type="Label" parent="LabelMaster" unique_id=1221950446]
+offset_left = 294.0
+offset_top = 197.0
+offset_right = 660.0
+offset_bottom = 285.0
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_66tet")
+
+[node name="Label3" type="Label" parent="LabelMaster" unique_id=1126154749]
+offset_left = 294.0
+offset_top = 348.0
+offset_right = 660.0
+offset_bottom = 436.0
+scale = Vector2(1, -1)
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_7ycvg")
+
+[connection signal="gameover" from="." to="CharacterUP" method="kill"]
+[connection signal="gameover" from="." to="CharacterDOWN" method="kill"]
+[connection signal="gameover" from="." to="LabelMaster" method="_on_gameover"]
+[connection signal="player_hit" from="EnemySpawner1" to="." method="_on_player_damage"]
+[connection signal="player_hit" from="EnemySpawner2" to="." method="_on_player_damage"]

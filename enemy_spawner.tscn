@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cbtd2bg8xxhxv"]
+
+[ext_resource type="Script" uid="uid://sl2ct77q3j2e" path="res://enemy_spawner.gd" id="1_ewhtn"]
+
+[node name="EnemySpawner" type="Node2D" unique_id=852923430 node_paths=PackedStringArray("timer", "parentEn")]
+script = ExtResource("1_ewhtn")
+timer = NodePath("Timer")
+parentEn = NodePath("EnemyParent")
+
+[node name="Timer" type="Timer" parent="." unique_id=1512084916]
+
+[node name="EnemyParent" type="Node" parent="." unique_id=1725488841]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
